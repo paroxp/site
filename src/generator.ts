@@ -1,7 +1,7 @@
 import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
-import html from 'html-minifier';
+import { minify } from 'html-minifier-terser';
 import { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { compileAsync as compileSass } from 'sass';
@@ -37,10 +37,10 @@ interface Page {
   readonly styles?: string;
 }
 
-function compileHTML(page: () => ReactElement, cfg: Config): string {
+async function compileHTML(page: () => ReactElement, cfg: Config): Promise<string> {
   const content = page();
 
-  return html.minify(htmlDocument(cfg, renderToString(content)), {
+  return await minify(htmlDocument(cfg, renderToString(content)), {
     collapseWhitespace: true,
     minifyJS: true,
     removeComments: true,
@@ -71,14 +71,6 @@ function dist(...parts: readonly string[]): string {
   return path.join(__dirname, '..', 'dist', ...parts);
 }
 
-function iterativelyCompileHTML(files: readonly FileWriteable[], page: Page): readonly FileWriteable[] {
-  const filename = page.filename || `${page.name}${page.extension || '.html'}`;
-  const { path, scripts } = page;
-  const styles = page.styles || 'html{background-color:red}';
-  const content = compileHTML(page.body, { ...config, path, scripts, styles });
-
-  return [...files, { content, filename }];
-}
 
 async function generator(): Promise<void> {
   const [homeStyles, errorStyles, aboutStyles, aboutScripts] = await Promise.all([
@@ -112,10 +104,19 @@ async function generator(): Promise<void> {
     },
   ];
 
-  const sitemap = await generateSiteMap(config, pages.filter(page => !page.skipSitemap));
+  const [sitemap, compiledPages] = await Promise.all([
+    generateSiteMap(config, pages.filter(page => !page.skipSitemap)),
+    Promise.all(pages.map(async page => {
+      const filename = page.filename || `${page.name}${page.extension || '.html'}`;
+      const styles = page.styles || 'html{background-color:red}';
+      const content = await compileHTML(page.body, { ...config, path: page.path, scripts: page.scripts, styles });
+
+      return { content, filename };
+    })),
+  ]);
 
   const files: readonly FileWriteable[] = [
-    ...pages.reduce(iterativelyCompileHTML, []),
+    ...compiledPages,
     { content: sitemap, filename: 'sitemap.xml' },
   ];
   console.info(`${files.length} files to write.`, '\n');
