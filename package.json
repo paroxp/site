@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@types/html-minifier": "^4.0.6",
-    "@types/node-sass": "^4.11.8",
     "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.60.1",
@@ -41,8 +40,8 @@
     "html-minifier": "^4.0.0",
     "http-server": "^14.1.1",
     "moment": "^2.30.1",
-    "node-sass": "^9.0.0",
     "react": "^19.2.7",
+    "sass": "^1.100.0",
     "react-dom": "^19.2.7",
     "sitemap": "^9.0.1",
     "susy": "^3.0.8",

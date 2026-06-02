@@ -1,11 +1,10 @@
 import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
-import { promisify } from 'util';
 
 import html from 'html-minifier';
-import { render as scssRender } from 'node-sass';
 import { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
+import { compileAsync as compileSass } from 'sass';
 import { transpileModule, TranspileOptions } from 'typescript';
 
 import * as tsconfig from '../tsconfig.json';
@@ -48,19 +47,18 @@ function compileHTML(page: () => ReactElement, cfg: Config): string {
   });
 }
 
-const renderSCSS = promisify(scssRender);
-
 async function compileSCSS(filename: string): Promise<string> {
-  const result = await renderSCSS({
-    file: path.join(__dirname, filename),
-    includePaths: [
+  const result = await compileSass(path.join(__dirname, filename), {
+    loadPaths: [
       'src/scss',
       'node_modules/susy/sass',
     ],
-    outputStyle: 'compressed',
+    quietDeps: true,
+    silenceDeprecations: ['import', 'global-builtin', 'if-function', 'slash-div'],
+    style: 'compressed',
   });
 
-  return result.css.toString('utf-8');
+  return result.css;
 }
 
 function compileTypeScript(filename: string): string {
