@@ -154,9 +154,3 @@ $RECYCLE.BIN/
 
 dist/
 
-# Devenv
-.devenv*
-devenv.local.nix
-
-# Pre-Commit Hooks
-.pre-commit-config.yaml
