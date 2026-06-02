@@ -1,15 +1,8 @@
-// Import our settings.
-@import "variables";
+@forward "variables";
+@forward "methods";
 
-// Include some toolkits.
-@import "susy";
-
-// Import our dependencies.
-@import "methods";
-
-// Import rest of our styles.
-@import "global";
-@import "icons";
-@import "details";
-@import "structure";
-@import "type";
+@use "global";
+@use "icons";
+@use "details";
+@use "structure";
+@use "type";

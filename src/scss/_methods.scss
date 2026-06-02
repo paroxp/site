@@ -43,24 +43,16 @@
 /**
  * GOV.UK Frontend's Visually Hidden mixin, allowing elements to be readable but visually non-existent.
  */
-@mixin govuk-visually-hidden($important: true) {
-  position: absolute if($important, !important, null);
-
-  width: 1px if($important, !important, null);
-  height: 1px if($important, !important, null);
-  // If margin is set to a negative value it can cause text to be announced in
-  // the wrong order in VoiceOver for OSX
-  margin: 0 if($important, !important, null);
-  padding: 0 if($important, !important, null);
-
-  overflow: hidden if($important, !important, null);
-  clip: rect(0 0 0 0) if($important, !important, null);
-  clip-path: inset(50%) if($important, !important, null);
-
-  border: 0 if($important, !important, null);
-
-  // For long content, line feeds are not interpreted as spaces and small width
-  // causes content to wrap 1 word per line:
-  // https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
-  white-space: nowrap if($important, !important, null);
+@mixin govuk-visually-hidden() {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  // Long content without line feeds wraps 1 word per line at 1px wide.
+  white-space: nowrap !important;
+  width: 1px !important;
 }

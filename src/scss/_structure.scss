@@ -1,3 +1,7 @@
+@use "variables" as *;
+@use "methods" as *;
+@use "sass:map";
+
 body {
   margin: 0 1rem;
   max-width: 48rem;
@@ -23,7 +27,7 @@ body {
     text-align: center;
     text-transform: uppercase;
 
-    @include min(map_get($width, 'tablet')) {
+    @include min(map.get($width, 'tablet')) {
       margin: 1rem auto;
       text-align: inherit;
     }
@@ -40,11 +44,11 @@ body {
       margin: 0;
       padding: 0;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         float: left;
         margin: 0;
-        margin-right: gutter(6 of 12);
-        width: span(6 of 12);
+        margin-right: 1.694915%;
+        width: 49.152542%;
       }
 
       > h1, > h2 {
@@ -58,12 +62,12 @@ body {
       }
 
       > h2 {
-        color: map_get($light-mode, 'secondary');
+        color: map.get($light-mode, 'secondary');
         font-weight: 300;
         margin: 0;
 
         @media screen and (prefers-color-scheme: dark) {
-          color: map_get($dark-mode, 'secondary');
+          color: map.get($dark-mode, 'secondary');
         }
       }
     }
@@ -77,7 +81,7 @@ body {
       margin: 0;
       padding: 0;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         display: flex;
         justify-content: flex-end;
         left: 0;
@@ -96,7 +100,7 @@ body {
       display: inline-block;
       margin: .5rem .5rem;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         margin: 0 .5rem;
 
         &:first-of-type {
@@ -114,14 +118,14 @@ body {
       position: relative;
       @include clearfix;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         float: right;
         height: auto;
         margin-right: 0;
         min-height: 6em;
         overflow: initial;
         text-align: right;
-        width: span(6 of 12);
+        width: 49.152542%;
       }
 
       @media print {
@@ -135,7 +139,7 @@ body {
     margin-top: 1rem;
     text-align: center;
 
-    @include min(map_get($width, 'tablet')) {
+    @include min(map.get($width, 'tablet')) {
       margin-top: 3rem;
       text-align: left;
     }
@@ -150,28 +154,28 @@ body {
 
       @include button() {
         svg path {
-          fill: map_get($light-mode, 'secondary');
+          fill: map.get($light-mode, 'secondary');
 
           @media screen and (prefers-color-scheme: dark) {
-            fill: map_get($dark-mode, 'secondary');
+            fill: map.get($dark-mode, 'secondary');
           }
         }
 
         &:active, &:hover {
           &.github svg path {
-            fill: map_get($social, 'github');
+            fill: map.get($social, 'github');
 
             @media screen and (prefers-color-scheme: dark) {
-              fill: map_get($dark-mode, 'foreground');
+              fill: map.get($dark-mode, 'foreground');
             }
           }
 
           &.mastodon svg path {
-            fill: map_get($social, 'mastodon');
+            fill: map.get($social, 'mastodon');
           }
 
           &.linkedin svg path {
-            fill: map_get($social, 'linkedin');
+            fill: map.get($social, 'linkedin');
           }
         }
       }
@@ -181,10 +185,10 @@ body {
       line-height: 2.5;
       text-transform: uppercase;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         float: left;
-        margin-right: gutter(6 of 12);
-        width: span(6 of 12);
+        margin-right: 1.694915%;
+        width: 49.152542%;
       }
     }
 
@@ -192,11 +196,11 @@ body {
       cursor: default;
       user-select: none;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         float: right;
         margin-right: 0;
         text-align: right;
-        width: span(6 of 12);
+        width: 49.152542%;
       }
     }
 
@@ -207,7 +211,7 @@ body {
       margin: 0;
       padding: 0;
 
-      @include min(map_get($width, 'tablet')) {
+      @include min(map.get($width, 'tablet')) {
         justify-content: flex-end;
       }
     }

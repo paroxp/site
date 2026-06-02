@@ -49,12 +49,7 @@ function compileHTML(page: () => ReactElement, cfg: Config): string {
 
 async function compileSCSS(filename: string): Promise<string> {
   const result = await compileSass(path.join(__dirname, filename), {
-    loadPaths: [
-      'src/scss',
-      'node_modules/susy/sass',
-    ],
-    quietDeps: true,
-    silenceDeprecations: ['import', 'global-builtin', 'if-function', 'slash-div'],
+    loadPaths: ['src/scss'],
     style: 'compressed',
   });
 

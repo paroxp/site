@@ -1,3 +1,7 @@
+@use "variables" as *;
+@use "methods" as *;
+@use "sass:map";
+
 [data-details] {
   display: block;
 
@@ -13,7 +17,7 @@
     display: none;
   }
 
-  @include min(map_get($width, 'tablet')) {
+  @include min(map.get($width, 'tablet')) {
     @media screen {
       summary .icon {
         display: block;
@@ -27,13 +31,13 @@
         }
 
         svg {
-          fill: map_get($light-mode, 'foreground');
+          fill: map.get($light-mode, 'foreground');
           margin-top: 0.25em;
           max-height: 1em;
           max-width: 1em;
 
           @media screen and (prefers-color-scheme: dark) {
-            fill: map_get($dark-mode, 'foreground');
+            fill: map.get($dark-mode, 'foreground');
           }
         }
       }
@@ -52,13 +56,13 @@
   }
 
   > *:not(summary) {
-    @include min(map_get($width, 'tablet')) {
+    @include min(map.get($width, 'tablet')) {
       display: none;
     }
   }
 
   &.active > *:not(summary) {
-    @include min(map_get($width, 'tablet')) {
+    @include min(map.get($width, 'tablet')) {
       display: block;
     }
   }
@@ -67,10 +71,10 @@
 #beardPath {
   stroke: none;
   fill-rule: nonzero;
-  fill: map_get($light-mode, 'foreground');
+  fill: map.get($light-mode, 'foreground');
   fill-opacity: 1;
 
   @media screen and (prefers-color-scheme: dark) {
-    fill: map_get($dark-mode, 'foreground');
+    fill: map.get($dark-mode, 'foreground');
   }
 }

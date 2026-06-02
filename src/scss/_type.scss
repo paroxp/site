@@ -1,19 +1,23 @@
+@use "variables" as *;
+@use "methods" as *;
+@use "sass:map";
+
 a, a:link, a:visited {
-  color: map_get($light-mode, 'link');
+  color: map.get($light-mode, 'link');
   text-decoration: none;
 
   transition: all .3s ease;
 
   @media screen and (prefers-color-scheme: dark) {
-    color: map_get($dark-mode, 'link');
+    color: map.get($dark-mode, 'link');
   }
 }
 
 a:hover, a:active, a.active {
-  color: map_get($light-mode, 'link-active');
+  color: map.get($light-mode, 'link-active');
 
   @media screen and (prefers-color-scheme: dark) {
-    color: map_get($dark-mode, 'link-active');
+    color: map.get($dark-mode, 'link-active');
   }
 }
 
@@ -21,7 +25,7 @@ h1 {
   font-size: 30px;
   font-size: 1.875rem;
 
-  @include min(map_get($width, 'tablet')) {
+  @include min(map.get($width, 'tablet')) {
     font-size: 38px;
     font-size: 2.375rem;
   }
@@ -31,7 +35,7 @@ h2 {
   font-size: 24px;
   font-size: 1.5rem;
 
-  @include min(map_get($width, 'tablet')) {
+  @include min(map.get($width, 'tablet')) {
     font-size: 32px;
     font-size: 2rem;
   }
@@ -41,7 +45,7 @@ h3 {
   font-size: 19px;
   font-size: 1.1875rem;
 
-  @include min(map_get($width, 'tablet')) {
+  @include min(map.get($width, 'tablet')) {
     font-size: 24px;
     font-size: 1.5rem;
   }
@@ -51,7 +55,7 @@ h4 {
   font-size: 16px;
   font-size: 1rem;
 
-  @include min(map_get($width, 'tablet')) {
+  @include min(map.get($width, 'tablet')) {
     font-size: 20px;
     font-size: 1.25rem;
   }
@@ -72,12 +76,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: .25rem 0 .5rem;
 
   small {
-    color: map_get($light-mode, 'secondary');
+    color: map.get($light-mode, 'secondary');
     font-size: 60%;
     font-weight: normal;
 
     @media screen and (prefers-color-scheme: dark) {
-      color: map_get($dark-mode, 'secondary');
+      color: map.get($dark-mode, 'secondary');
     }
   }
 }
