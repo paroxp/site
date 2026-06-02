@@ -87,9 +87,17 @@ export function Footer(): ReactElement {
   </footer>;
 }
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export function htmlDocument(config: Config, body: string): string {
-  const title = `${config.name} - ${config.title}`;
-  const pageTitle = `${config.subtitle ? `${config.subtitle} - ` : ''}${title}`;
+  const title = `${escapeHtml(config.name)} - ${escapeHtml(config.title)}`;
+  const pageTitle = `${config.subtitle ? `${escapeHtml(config.subtitle)} - ` : ''}${title}`;
 
   return `<!doctype html>
   <html lang="en">
@@ -100,9 +108,9 @@ export function htmlDocument(config: Config, body: string): string {
       <meta charset="utf-8">
       <meta name="theme-color" content="#3D9970"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-      <meta name="description" content="${config.description}"  property="og:description">
-      <meta name="keywords" content="${config.keywords.join(',')}">
-      <meta name="author" content="${config.name}">
+      <meta name="description" content="${escapeHtml(config.description)}"  property="og:description">
+      <meta name="keywords" content="${escapeHtml(config.keywords.join(','))}">
+      <meta name="author" content="${escapeHtml(config.name)}">
       <meta name="copyright" content="Copyright 2014 - ${moment().year()}">
 
       <link rel="canonical" href="${new URL(config.path || '', config.url).href}">
@@ -120,7 +128,7 @@ export function htmlDocument(config: Config, body: string): string {
 
     <body>
       ${body}
-      ${config.scripts ? `<script>${config.scripts}</script>` : ''}
+      ${config.scripts ? `<script>${config.scripts.replace(/<\/script/gi, '<\\/script')}</script>` : ''}
     </body>
   </html>`;
 }
