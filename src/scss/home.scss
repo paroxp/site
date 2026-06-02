@@ -8,22 +8,10 @@ body > main#home {
   img, svg {
     max-width: 10rem;
 
-    &.desktop {
-      display: none;
-    }
-
     @include min(map_get($width, 'tablet')) {
       display: block;
       margin: 0 auto;
       max-width: 20rem;
-
-      &.desktop {
-        display: initial;
-      }
-
-      &.mobile {
-        display: none;
-      }
     }
   }
 }
