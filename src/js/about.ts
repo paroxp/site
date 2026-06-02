@@ -1,16 +1,10 @@
 ((): void => {
   assure('[data-details] summary', (element: Element) => {
-    if (!element) {
-      return;
-    }
-
     element.addEventListener('click', e => {
       if ((e.target as Element).tagName.toLowerCase() !== 'a') {
         e.preventDefault();
 
         toggleClass(element.parentNode as Element, 'active');
-
-        return true;
       }
     });
   });
