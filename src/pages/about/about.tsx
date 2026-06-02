@@ -1,13 +1,37 @@
-import moment from 'moment';
 import React, { ReactElement, ReactNode } from 'react';
 
 import { arrow } from '../../img';
 import { Footer, Header } from '../layout';
 
+function ordinalSuffix(n: number): string {
+  const mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 13) {
+    return 'th';
+  }
+
+  switch (n % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+  }
+}
+
+function formatLong(date: Date): string {
+  const day = date.getUTCDate();
+  const month = new Intl.DateTimeFormat('en-GB', { month: 'short', timeZone: 'UTC' }).format(date);
+
+  return `${month} ${day}${ordinalSuffix(day)} ${date.getUTCFullYear()}`;
+}
+
+function formatMonthYear(date: Date): string {
+  return new Intl.DateTimeFormat('en-GB', { month: 'long', timeZone: 'UTC', year: 'numeric' }).format(date);
+}
+
 type BaseExperienceProperties = {
   readonly title: string;
-  readonly start: moment.Moment;
-  readonly finish?: moment.Moment;
+  readonly start: Date;
+  readonly finish?: Date;
   readonly nonPrintable?: boolean;
   readonly children?: ReactNode;
 };
@@ -19,8 +43,8 @@ type ExperienceProperties = BaseExperienceProperties & {
 }
 
 function Experience(props: ExperienceProperties): ReactElement {
-  const termStart = props.start.format('MMM Do YYYY');
-  const termEnd = !props.finish ? 'present' : props.finish.format('MMM Do YYYY');
+  const termStart = formatLong(props.start);
+  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
   const title = `${termStart} - ${termEnd}`;
 
   return <details data-details={props.nonPrintable ? 'no-print' : ''} open>
@@ -28,8 +52,8 @@ function Experience(props: ExperienceProperties): ReactElement {
       <span className="icon closed" dangerouslySetInnerHTML={{ __html: arrow.right }} />
       <span className="icon open" dangerouslySetInnerHTML={{ __html: arrow.down }} />
 
-      <time dateTime={props.start.format('YYYY-MM-DD')} title={title}>
-        {props.start.year()} - {!props.finish ? 'present' : props.finish.year()}
+      <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
+        {props.start.getUTCFullYear()} - {!props.finish ? 'present' : props.finish.getUTCFullYear()}
       </time>
       <span className={props.hasEmbeddedExperience ? 'no-print' : ''}>: {}
         <strong>
@@ -48,13 +72,13 @@ function Experience(props: ExperienceProperties): ReactElement {
 }
 
 function EmbeddedExperience(props: BaseExperienceProperties): ReactElement {
-  const termStart = props.start.format('MMM Do YYYY');
-  const termEnd = !props.finish ? 'present' : props.finish.format('MMM Do YYYY');
+  const termStart = formatLong(props.start);
+  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
   const title = `${termStart} - ${termEnd}`;
 
   return <div className="embedded">
-    <time dateTime={props.start.format('YYYY-MM-DD')} title={title}>
-      {props.start.format('MMMM YYYY')} - {!props.finish ? 'present' : props.finish.format('MMMM YYYY')}
+    <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
+      {formatMonthYear(props.start)} - {!props.finish ? 'present' : formatMonthYear(props.finish)}
     </time>: {}
     <strong>{props.title}</strong>
 
@@ -163,18 +187,18 @@ export function About(): ReactElement {
         <h3>Experience</h3>
 
         <Experience
-          start={moment('2016-08-08')}
+          start={new Date('2016-08-08')}
           title="Lead SRE"
           hasEmbeddedExperience={true}
           organisation="Government Digital Service"
           organisationURL="https://gds.blog.gov.uk">
           <EmbeddedExperience
-            start={moment('2025-05-01')}
+            start={new Date('2025-05-01')}
             title="Head of Platforms and Reliability Engineering">
 
             </EmbeddedExperience>
           <EmbeddedExperience
-            start={moment('2022-03-23')}
+            start={new Date('2022-03-23')}
             title="Lead SRE">
             <ul>
               <li>
@@ -221,8 +245,8 @@ export function About(): ReactElement {
           </EmbeddedExperience>
 
           <EmbeddedExperience
-            start={moment('2016-08-08')}
-            finish={moment('2022-03-22')}
+            start={new Date('2016-08-08')}
+            finish={new Date('2022-03-22')}
             title="Senior SRE and Tech Lead">
             <ul>
               <li>
@@ -287,8 +311,8 @@ export function About(): ReactElement {
         </Experience>
 
         <Experience
-          start={moment('2015-11-30')}
-          finish={moment('2016-08-05')}
+          start={new Date('2015-11-30')}
+          finish={new Date('2016-08-05')}
           title="Frontend Developer"
           organisation="FLIP Sports"
           organisationURL="http://flipsports.com">
@@ -303,8 +327,8 @@ export function About(): ReactElement {
         </Experience>
 
         <Experience
-          start={moment('2013-06-17')}
-          finish={moment('2015-11-27')}
+          start={new Date('2013-06-17')}
+          finish={new Date('2015-11-27')}
           title="Developer"
           organisation="HurstDEV"
           organisationURL="https://github.com/jamiefdhurst">
@@ -325,8 +349,8 @@ export function About(): ReactElement {
         </Experience>
 
         <Experience
-          start={moment('2012-09-17')}
-          finish={moment('2013-06-14')}
+          start={new Date('2012-09-17')}
+          finish={new Date('2013-06-14')}
           title="Junior Web Developer"
           organisation="Surreal Creative"
           organisationURL="https://whysurreal.com">
@@ -339,8 +363,8 @@ export function About(): ReactElement {
         </Experience>
 
         <Experience
-          start={moment('2009-09-14')}
-          finish={moment('2012-06-14')}
+          start={new Date('2009-09-14')}
+          finish={new Date('2012-06-14')}
           title="Extended Diploma in IT"
           organisation="Newcastle College"
           organisationURL="https://www.ncl-coll.ac.uk"

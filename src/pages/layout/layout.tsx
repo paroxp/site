@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { ReactElement, ReactNode } from 'react';
 
 import { Config } from '../../config';
@@ -68,7 +67,7 @@ export function Header(props: HeaderProperties): ReactElement {
 }
 
 export function Footer(): ReactElement {
-  const currentYear = moment().year();
+  const currentYear = new Date().getFullYear();
 
   return <footer>
     <ul className="icons">
@@ -111,7 +110,7 @@ export function htmlDocument(config: Config, body: string): string {
       <meta name="description" content="${escapeHtml(config.description)}"  property="og:description">
       <meta name="keywords" content="${escapeHtml(config.keywords.join(','))}">
       <meta name="author" content="${escapeHtml(config.name)}">
-      <meta name="copyright" content="Copyright 2014 - ${moment().year()}">
+      <meta name="copyright" content="Copyright 2014 - ${new Date().getFullYear()}">
 
       <link rel="canonical" href="${new URL(config.path || '', config.url).href}">
 
