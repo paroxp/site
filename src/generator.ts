@@ -127,7 +127,7 @@ async function generator(): Promise<void> {
   ];
   console.info(`${files.length} files to write.`, '\n');
 
-  files.map(file => {
+  files.forEach(file => {
     writeFileSync(dist(file.filename), file.content);
     console.info(`'${file.filename}' file generated.`);
   });
@@ -141,7 +141,7 @@ async function generator(): Promise<void> {
 
   console.info('\n', `${copyList.length} files to copy.`, '\n');
 
-  copyList.map(file => {
+  copyList.forEach(file => {
     copyFileSync(file.source, file.destination);
     console.info(`'${file.source}' file copied.`);
   });
