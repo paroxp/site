@@ -27,9 +27,14 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
     return;
   }
 
-  if (existsSync(full)) {
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(full)] ?? 'application/octet-stream' });
-    res.end(readFileSync(full));
+  const withHtml = `${full}.html`;
+  const file = existsSync(full) ? full
+    : !path.extname(url) && existsSync(withHtml) ? withHtml
+    : null;
+
+  if (file !== null) {
+    res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] ?? 'application/octet-stream' });
+    res.end(readFileSync(file));
 
     return;
   }
