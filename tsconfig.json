@@ -16,7 +16,7 @@
     "inlineSources": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitAny": true,
     "isolatedModules": false,
     "pretty": true,

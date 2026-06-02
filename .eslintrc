@@ -38,7 +38,6 @@
   "rules": {
     "@typescript-eslint/array-type": "error",
     "@typescript-eslint/await-thenable": "error",
-    "@typescript-eslint/ban-types": ["error", {"types": {"{}": false, "object": false}}],
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/naming-convention": ["error", { "selector": "function", "format": ["camelCase", "PascalCase"] }],

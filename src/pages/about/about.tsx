@@ -9,7 +9,7 @@ type BaseExperienceProperties = {
   readonly start: moment.Moment;
   readonly finish?: moment.Moment;
   readonly nonPrintable?: boolean;
-  readonly children: ReactNode;
+  readonly children?: ReactNode;
 };
 
 type ExperienceProperties = BaseExperienceProperties & {
