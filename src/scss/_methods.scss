@@ -2,10 +2,7 @@
  * Our custom button, to be used throughout the project.
  */
 @mixin button() {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-radius: 5px;
   display: inline-block;
   padding: .3rem;
   text-align: center;

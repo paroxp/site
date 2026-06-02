@@ -158,12 +158,6 @@ body {
         }
 
         &:active, &:hover {
-          fill: map_get($light-mode, 'link-active');
-
-          @media screen and (prefers-color-scheme: dark) {
-            fill: map_get($dark-mode, 'link-active');
-          }
-
           &.github svg path {
             fill: map_get($social, 'github');
 
