@@ -47,17 +47,20 @@ function compileHTML(page: () => ReactElement, cfg: Config): string {
   });
 }
 
-function compileSCSS(filename: string): string {
-  const source = readFileSync(path.join(__dirname, filename), 'utf8');
-
-  return scss.renderSync({
-    data: source,
-    includePaths: [
-      'src/scss',
-      'node_modules/susy/sass',
-    ],
-    outputStyle: 'compressed',
-  }).css.toString('utf-8');
+function compileSCSS(filename: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    scss.render({
+      file: path.join(__dirname, filename),
+      includePaths: [
+        'src/scss',
+        'node_modules/susy/sass',
+      ],
+      outputStyle: 'compressed',
+    }, (error, result) => {
+      if (error) { reject(error); return; }
+      resolve(result.css.toString('utf-8'));
+    });
+  });
 }
 
 function compileTypeScript(filename: string): string {
@@ -85,27 +88,34 @@ function iterativelyCompileHTML(files: readonly FileWriteable[], page: Page): re
 }
 
 async function generator(): Promise<void> {
+  const [homeStyles, errorStyles, aboutStyles, aboutScripts] = await Promise.all([
+    compileSCSS('./scss/home.scss'),
+    compileSCSS('./scss/error.scss'),
+    compileSCSS('./scss/about.scss'),
+    Promise.resolve(compileTypeScript('./js/about.ts')),
+  ]);
+
   const pages: readonly Page[] = [
     {
       body: Home,
       filename: 'index.html',
       name: 'home',
       path: '/',
-      styles: compileSCSS('./scss/home.scss'),
+      styles: homeStyles,
     },
     {
       body: NotFound,
       name: '404',
       path: '/404',
       skipSitemap: true,
-      styles: compileSCSS('./scss/error.scss'),
+      styles: errorStyles,
     },
     {
       body: About,
       name: 'about',
       path: '/about',
-      scripts: compileTypeScript('./js/about.ts'),
-      styles: compileSCSS('./scss/about.scss'),
+      scripts: aboutScripts,
+      styles: aboutStyles,
     },
   ];
 
