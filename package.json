@@ -24,7 +24,7 @@
     "lint:sass": "",
     "lint:ts": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint": "npm run -s lint:sass && npm run -s lint:ts",
-    "start": "http-server ./dist",
+    "start": "ts-node src/serve.ts",
     "test:audit": "npm audit",
     "test": "npm run -s lint"
   },
@@ -38,7 +38,6 @@
     "eslint-plugin-functional": "^6.6.3",
     "eslint-plugin-import": "^2.32.0",
     "html-minifier": "^4.0.0",
-    "http-server": "^14.1.1",
     "react": "^19.2.7",
     "sass": "^1.100.0",
     "react-dom": "^19.2.7",
