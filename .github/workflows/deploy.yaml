@@ -25,13 +25,16 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+        cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
 
     - name: Build artifact
-      run: npm run build --if-present
+      run: npm run build
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
