@@ -188,13 +188,13 @@ export function About(): ReactElement {
 
         <Experience
           start={new Date('2016-08-08')}
-          title="Lead SRE"
+          title="Head of Platform and Reliability Engineering"
           hasEmbeddedExperience={true}
           organisation="Government Digital Service"
           organisationURL="https://gds.blog.gov.uk">
           <EmbeddedExperience
             start={new Date('2025-05-01')}
-            title="Head of Platforms and Reliability Engineering">
+            title="Head of Platform and Reliability Engineering">
 
             </EmbeddedExperience>
           <EmbeddedExperience
