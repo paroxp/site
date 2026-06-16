@@ -9,7 +9,7 @@
     });
   });
 
-  assure('[data-skills] li', (element: Element) => {
+  assure('[data-skills] span', (element: Element) => {
     element.addEventListener('click', _e => toggleClass(element, 'highlight'));
   });
 })();

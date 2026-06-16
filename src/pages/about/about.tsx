@@ -103,84 +103,39 @@ export function About(): ReactElement {
       <section id="skills">
         <h3>Skills</h3>
 
-        <ul data-skills>
-          <li>Agile</li>
+        <div data-skills>
+          <div>
+            <strong>Application Development</strong>
 
-          {/* Languages */}
-          <li>Go</li>
-          <li>Node.js and JavaScript</li>
-          <li>TypeScript</li>
-          <li>ES6</li>
-          <li>PHP</li>
-          <li>Ruby</li>
-          <li>Python</li>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JSON</li>
-          <li>YAML</li>
-          <li>SQL</li>
+            <span>Go</span>, <span>TypeScript</span>, <span>Node.js</span>, <span>NGINX</span>
+          </div>
+          <div>
+            <strong>Infrastructure &amp; Cloud</strong>
 
-          {/* Infrastructure */}
-          <li>AWS</li>
-          <li>Kubernetes</li>
-          <li>Lambda</li>
-          <li>Docker</li>
-          <li>CloudFoundry</li>
-          <li>API Gateway</li>
+            <span>Kubernetes</span>, <span>Terraform</span>, <span>AWS</span>, <span>CloudFoundry</span>
+          </div>
 
-          {/* Tools */}
-          <li>Linux</li>
-          <li>Git</li>
-          <li>Terraform</li>
-          <li>Concourse</li>
-          <li>CloudFormation</li>
-          <li>Prometheus</li>
-          <li>NGINX</li>
-          <li>Kibana</li>
-          <li>DataDog</li>
-          <li>Webpack</li>
-          <li>Gulp</li>
-          <li>Mailgun</li>
-          <li>Shell</li>
-          <li>Travis</li>
-          <li>Ansible</li>
-          <li>Puppet</li>
-          <li>Vagrant</li>
+          <div>
+            <strong>Databases &amp; Storage</strong>
 
-          {/* Methods */}
-          <li>JWT</li>
-          <li>OIDC</li>
-          <li>OAuth2</li>
-          <li>DevOps</li>
-          <li>Web Applications</li>
-          <li>REST APIs</li>
+            <span>Postgres</span>, <span>MySQL</span>, <span>Redis</span>, <span>DynamoDB</span>
+          </div>
+          <div>
+            <strong>DevOps &amp; Security</strong>
 
-          {/* Backing services */}
-          <li>Postgres</li>
-          <li>Redis</li>
-          <li>MySQL</li>
-          <li>DynamoDB</li>
-          <li>Memcached</li>
+            <span>Git</span>, <span>Docker</span>, <span>CI/CD</span>, <span>Testing</span>
+          </div>
+          <div>
+            <strong>Monitoring &amp; Observability</strong>
 
-          {/* Frameworks */}
-          <li>Koa.js</li>
-          <li>React</li>
-          <li>Express.js</li>
-          <li>Angular</li>
-          <li>Ionic</li>
-          <li>Foundation</li>
-          <li>Bootstrap</li>
+            <span>Grafana</span>, <span>Prometheus</span>, <span>Datadog</span>, <span>Dynatrace</span>
+          </div>
+          <div>
+            <strong>Frontend &amp; Web</strong>
 
-          {/* Competencies */}
-          <li>Continuous Integration and Delivery</li>
-          <li>Infrastructure as Code</li>
-          <li>Platform monitoring</li>
-          <li>Technical Leadership</li>
-          <li>Unit and Integration Testing</li>
-          <li>Mentoring</li>
-          <li>Excellent problem-solving</li>
-          <li>Database Design</li>
-        </ul>
+            <span>React</span>, <span>Angular</span>, <span>Koa.js</span>, <span>Express.js</span>
+          </div>
+        </div>
       </section>
 
       <section id="timeline">
