@@ -251,13 +251,11 @@ export function About(): ReactElement {
             title="Senior SRE and Tech Lead">
             <ul>
               <li>
-                As Tech Lead of the GOV.UK PaaS team, provided technical leadership of a large scale government wide
-                cloud hosting platform
-              </li>
-              <li>
-                Planned, prioritised and built various components for tenants of GOV.UK PaaS (home to 200+
-                organisations, 2.5k applications and 2k backing services) including admin portal, billing statements and
-                calculator, IPSec encryption for traffic between cells and routers, performance dashboards and alerts
+                Technical Lead for GOV.UK PaaS platform serving 200+ government organizations. Architected and
+                delivered critical infrastructure components including admin portal used by the platform users and
+                adopted by similar platforms in the industry, automated billing system processing monthly recharge, and
+                inter-cell IPSec encryption layer improving security posture. Managed platform reliability for 2.5k
+                applications and 2k backing services with 99.999% uptime.
               </li>
               <li>
                 Architected and led the design and development of various components for the Kubernetes platform
@@ -277,8 +275,8 @@ export function About(): ReactElement {
                 Kubernetes, CloudFoundry, Bosh, YAML, Go, Shell Scripts, Postgres
               </li>
               <li>
-                Developed web applications for GOV.UK PaaS tenants with the use of Go, Node.js, TypeScript, Sinatra, JS,
-                Webpack
+                Developed web applications for GOV.UK PaaS tenants with the use of Go, Node.js, TypeScript, Sinatra,
+                JS, Webpack
               </li>
               <li>
                 Worked with Secure Continuous Delivery system using Git and GPG encryption to ensure integrity of
