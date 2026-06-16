@@ -196,9 +196,10 @@ export function About(): ReactElement {
             start={new Date('2025-05-01')}
             title="Head of Platform and Reliability Engineering">
 
-            </EmbeddedExperience>
+          </EmbeddedExperience>
           <EmbeddedExperience
             start={new Date('2022-03-23')}
+            finish={new Date('2025-05-01')}
             title="Lead SRE">
             <ul>
               <li>
