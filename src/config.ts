@@ -19,5 +19,5 @@ export const config: Config = {
   name: 'Rafal Proszowski',
   styles: '',
   title: 'Software Engineer',
-  url: 'https://www.rafalp.com/',
+  url: 'https://www.paroxp.com/',
 };
