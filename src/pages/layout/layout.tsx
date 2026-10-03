@@ -24,7 +24,7 @@ type LinkProperties = {
 }
 
 type SocialLinkProperties = {
-  readonly icon: string;
+  readonly icon: keyof typeof social;
   readonly title: string;
   readonly url: string;
 }
