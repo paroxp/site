@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 
 import { arrow } from '../../img';
-import { Footer, Header } from '../layout';
+import { Footer, Header, Link } from '../layout';
 
 function ordinalSuffix(n: number): string {
   const mod100 = n % 100;
@@ -43,7 +43,7 @@ type BaseExperienceProperties = {
 type ExperienceProperties = BaseExperienceProperties & {
   readonly hasEmbeddedExperience?: boolean;
   readonly organisation: string;
-  readonly organisationURL?: string;
+  readonly organisationURL: string;
 }
 
 type TermProperties = {
@@ -72,11 +72,8 @@ function Experience(props: ExperienceProperties): ReactElement {
         <strong>
           {props.title}
         </strong> at
-      </span> <a href={props.organisationURL} target="_blank" rel="external nofollow noopener noreferrer">
-        {props.organisation}
-      </a> {props.organisationURL
-        ? <span className="link" aria-hidden>( {props.organisationURL} )</span>
-        : <></>}
+      </span> <Link href={props.organisationURL}>{props.organisation}</Link> {}
+      <span className="link" aria-hidden>( {props.organisationURL} )</span>
     </summary>
 
     {props.children}

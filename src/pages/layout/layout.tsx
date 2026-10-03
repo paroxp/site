@@ -12,6 +12,8 @@ type LinkProperties = {
   readonly className?: string;
   readonly href: string;
   readonly internal?: boolean;
+  readonly rel?: string;
+  readonly title?: string;
 }
 
 type SocialLinkProperties = {
@@ -25,7 +27,8 @@ export function Link(props: LinkProperties): ReactElement {
     className={props.className}
     href={props.href}
     target={!props.internal ? '_blank' : undefined}
-    rel={!props.internal ? 'external nofollow noopener noreferrer' : undefined}>
+    rel={!props.internal ? `external nofollow noopener noreferrer ${props.rel ?? ''}`.trim() : props.rel}
+    title={props.title}>
       {props.children}
     </a>;
 }
@@ -34,15 +37,10 @@ function SocialLink(props: SocialLinkProperties): ReactElement {
   const image = social[props.icon];
 
   return <li>
-    <a
-      href={props.url}
-      target="_blank"
-      rel="external nofollow noopener noreferrer me"
-      title={props.title}
-      className={props.icon}>
+    <Link href={props.url} rel="me" title={props.title} className={props.icon}>
       <span className={['icon', props.icon].join(' ')} dangerouslySetInnerHTML={{ __html: image }}></span>
       <span className="visually-hidden">{props.title}</span>
-    </a>
+    </Link>
   </li>;
 }
 
