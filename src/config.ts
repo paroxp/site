@@ -18,6 +18,6 @@ export const config: Config = {
   ],
   name: 'Rafal Proszowski',
   styles: '',
-  title: 'Software Engineer',
+  title: 'Site Reliability Engineer',
   url: 'https://www.paroxp.com/',
 };

@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Config } from '../../config';
+import { Config, config as site } from '../../config';
 import { social } from '../../img';
 
 type HeaderProperties = {
@@ -47,8 +47,8 @@ function SocialLink(props: SocialLinkProperties): ReactElement {
 export function Header(props: HeaderProperties): ReactElement {
   return <header className={props.page}>
     <div>
-      <h1>Rafal Proszowski</h1>
-      <h2>Site Reliability Engineer</h2>
+      <h1>{site.name}</h1>
+      <h2>{site.title}</h2>
     </div>
 
     <nav>
