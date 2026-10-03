@@ -14,52 +14,42 @@ a:hover, a:active, a.active {
 }
 
 h1 {
-  font-size: 30px;
   font-size: 1.875rem;
 
   @include min(map.get($width, 'tablet')) {
-    font-size: 38px;
     font-size: 2.375rem;
   }
 }
 
 h2 {
-  font-size: 24px;
   font-size: 1.5rem;
 
   @include min(map.get($width, 'tablet')) {
-    font-size: 32px;
     font-size: 2rem;
   }
 }
 
 h3 {
-  font-size: 19px;
   font-size: 1.1875rem;
 
   @include min(map.get($width, 'tablet')) {
-    font-size: 24px;
     font-size: 1.5rem;
   }
 }
 
 h4 {
-  font-size: 16px;
   font-size: 1rem;
 
   @include min(map.get($width, 'tablet')) {
-    font-size: 20px;
     font-size: 1.25rem;
   }
 }
 
 h5 {
-  font-size: 16px;
   font-size: 1rem;
 }
 
 h6 {
-  font-size: 16px;
   font-size: 1rem;
 }
 
