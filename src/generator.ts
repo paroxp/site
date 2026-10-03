@@ -74,12 +74,12 @@ function dist(...parts: readonly string[]): string {
 
 
 async function generator(): Promise<void> {
-  const [homeStyles, errorStyles, aboutStyles, aboutScripts] = await Promise.all([
+  const [homeStyles, errorStyles, aboutStyles] = await Promise.all([
     compileSCSS('./scss/home.scss'),
     compileSCSS('./scss/error.scss'),
     compileSCSS('./scss/about.scss'),
-    Promise.resolve(compileTypeScript('./js/about.ts')),
   ]);
+  const aboutScripts = compileTypeScript('./js/about.ts');
 
   const pages: readonly Page[] = [
     {
