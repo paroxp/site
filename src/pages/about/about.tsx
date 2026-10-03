@@ -28,6 +28,10 @@ function formatMonthYear(date: Date): string {
   return new Intl.DateTimeFormat('en-GB', { month: 'long', timeZone: 'UTC', year: 'numeric' }).format(date);
 }
 
+function formatYear(date: Date): string {
+  return String(date.getUTCFullYear());
+}
+
 type BaseExperienceProperties = {
   readonly title: string;
   readonly start: Date;
@@ -42,19 +46,28 @@ type ExperienceProperties = BaseExperienceProperties & {
   readonly organisationURL?: string;
 }
 
-function Experience(props: ExperienceProperties): ReactElement {
-  const termStart = formatLong(props.start);
-  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
-  const title = `${termStart} - ${termEnd}`;
+type TermProperties = {
+  readonly start: Date;
+  readonly finish?: Date;
+  readonly format: (date: Date) => string;
+};
 
+function Term(props: TermProperties): ReactElement {
+  const range = (format: (date: Date) => string): string =>
+    `${format(props.start)} - ${!props.finish ? 'present' : format(props.finish)}`;
+
+  return <time dateTime={props.start.toISOString().slice(0, 10)} title={range(formatLong)}>
+    {range(props.format)}
+  </time>;
+}
+
+function Experience(props: ExperienceProperties): ReactElement {
   return <details data-details={props.nonPrintable ? 'no-print' : ''} open>
     <summary>
       <span className="icon closed" dangerouslySetInnerHTML={{ __html: arrow.right }} />
       <span className="icon open" dangerouslySetInnerHTML={{ __html: arrow.down }} />
 
-      <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
-        {props.start.getUTCFullYear()} - {!props.finish ? 'present' : props.finish.getUTCFullYear()}
-      </time>
+      <Term start={props.start} finish={props.finish} format={formatYear} />
       <span className={props.hasEmbeddedExperience ? 'no-print' : ''}>: {}
         <strong>
           {props.title}
@@ -72,14 +85,8 @@ function Experience(props: ExperienceProperties): ReactElement {
 }
 
 function EmbeddedExperience(props: BaseExperienceProperties): ReactElement {
-  const termStart = formatLong(props.start);
-  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
-  const title = `${termStart} - ${termEnd}`;
-
   return <div className="embedded">
-    <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
-      {formatMonthYear(props.start)} - {!props.finish ? 'present' : formatMonthYear(props.finish)}
-    </time>: {}
+    <Term start={props.start} finish={props.finish} format={formatMonthYear} />: {}
     <strong>{props.title}</strong>
 
     {props.children}
