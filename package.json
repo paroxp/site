@@ -25,7 +25,8 @@
     "lint": "npm run -s lint:ts",
     "start": "ts-node src/serve.ts",
     "test:audit": "npm audit",
-    "test": "npm run -s lint"
+    "test:types": "tsc --noEmit",
+    "test": "npm run -s lint && npm run -s test:types"
   },
   "devDependencies": {
     "@types/html-minifier-terser": "^7.0.2",
