@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
@@ -38,12 +39,38 @@ interface Page {
 
 async function compileHTML(body: () => ReactElement, page: DocumentProperties): Promise<string> {
   const content = body();
-
-  return await minify(htmlDocument(page, renderToStaticMarkup(content)), {
+  const html = await minify(htmlDocument(page, renderToStaticMarkup(content)), {
     collapseWhitespace: true,
     minifyJS: true,
     removeComments: true,
   });
+
+  return withContentSecurityPolicy(html);
+}
+
+// The inline <style> and <script> are allowed by hash, so the policy has to be computed from the final, minified HTML.
+function withContentSecurityPolicy(html: string): string {
+  const charset = '<meta charset="utf-8">';
+  const quote = (keyword: string): string => `'${keyword}'`;
+  const hashes = (tag: string): string => html.split(`<${tag}>`).slice(1)
+    .map(block => createHash('sha256').update(block.split(`</${tag}>`)[0]).digest('base64'))
+    .map(hash => quote(`sha256-${hash}`))
+    .join(' ') || quote('none');
+  const policy = [
+    `default-src ${quote('none')}`,
+    `base-uri ${quote('none')}`,
+    `form-action ${quote('none')}`,
+    `img-src ${quote('self')}`,
+    `manifest-src ${quote('self')}`,
+    `script-src ${hashes('script')}`,
+    `style-src ${hashes('style')}`,
+  ].join('; ');
+
+  if (!html.includes(charset)) {
+    throw new Error('Unable to place the Content-Security-Policy: charset declaration not found.');
+  }
+
+  return html.replace(charset, `${charset}<meta http-equiv="Content-Security-Policy" content="${policy}">`);
 }
 
 async function compileSCSS(filename: string): Promise<string> {
