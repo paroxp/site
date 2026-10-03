@@ -1,18 +1,18 @@
 {
-  "name": "rafalp",
+  "name": "paroxp.com",
   "version": "4.0.0",
   "description": "Rafal Proszowski - Resume",
   "main": "src/generator.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paroxp/rafalp.git"
+    "url": "git+https://github.com/paroxp/site.git"
   },
   "author": "Rafal Proszowski",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/paroxp/rafalp/issues"
+    "url": "https://github.com/paroxp/site/issues"
   },
-  "homepage": "https://github.com/paroxp/rafalp#readme",
+  "homepage": "https://github.com/paroxp/site#readme",
   "scripts": {
     "build:clean": "rm -rf dist/",
     "build:prepare": "mkdir dist/",
