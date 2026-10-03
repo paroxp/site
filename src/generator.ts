@@ -5,9 +5,7 @@ import { minify } from 'html-minifier-terser';
 import { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { compileAsync as compileSass } from 'sass';
-import { transpileModule, TranspileOptions } from 'typescript';
-
-import * as tsconfig from '../tsconfig.json';
+import { ModuleKind, ScriptTarget, transpileModule } from 'typescript';
 
 import { config } from './config';
 import { About } from './pages/about';
@@ -61,7 +59,9 @@ async function compileSCSS(filename: string): Promise<string> {
 function compileTypeScript(filename: string): string {
   const source = readFileSync(path.join(__dirname, filename), 'utf8');
 
-  return transpileModule(source, tsconfig as unknown as TranspileOptions).outputText;
+  return transpileModule(source, {
+    compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2015 },
+  }).outputText;
 }
 
 function discoverFilesToCopy(filepath: string): readonly FileCopyable[] {
