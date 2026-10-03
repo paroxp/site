@@ -22,6 +22,8 @@ type SocialLinkProperties = {
   readonly url: string;
 }
 
+const copyright = `Copyright 2014 - ${new Date().getFullYear()}`;
+
 export function Link(props: LinkProperties): ReactElement {
   return <a
     className={props.className}
@@ -65,8 +67,6 @@ export function Header(props: HeaderProperties): ReactElement {
 }
 
 export function Footer(): ReactElement {
-  const currentYear = new Date().getFullYear();
-
   return <footer>
     <ul className="icons">
       <SocialLink icon="github" title="Check me out on GitHub" url="https://github.com/paroxp" />
@@ -77,9 +77,7 @@ export function Footer(): ReactElement {
         url="https://www.linkedin.com/in/rafal-proszowski-78816744/" />
     </ul>
     <div className="copyright">
-      <small>
-        Copyright 2014 - {currentYear}
-      </small>
+      <small>{copyright}</small>
     </div>
   </footer>;
 }
@@ -107,7 +105,7 @@ export function htmlDocument(config: Config, body: string): string {
       <meta name="description" content="${escapeHtml(config.description)}"  property="og:description">
       <meta name="keywords" content="${escapeHtml(config.keywords.join(','))}">
       <meta name="author" content="${escapeHtml(config.name)}">
-      <meta name="copyright" content="Copyright 2014 - ${new Date().getFullYear()}">
+      <meta name="copyright" content="${copyright}">
 
       <link rel="canonical" href="${new URL(config.path || '', config.url).href}">
 
