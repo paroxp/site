@@ -15,6 +15,6 @@
     ],
     "theme_color": "#308559",
     "background_color": "#308559",
-    "start_url": "https://www.rafalp.com/",
+    "start_url": "/",
     "display": "standalone"
 }

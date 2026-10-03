@@ -115,8 +115,11 @@ async function generator(): Promise<void> {
     })),
   ]);
 
+  const robots = `User-agent: *\nAllow: /\n\nSitemap: ${new URL('sitemap.xml', config.url).href}\n`;
+
   const files: readonly FileWriteable[] = [
     ...compiledPages,
+    { content: robots, filename: 'robots.txt' },
     { content: sitemap, filename: 'sitemap.xml' },
   ];
   console.info(`${files.length} files to write.`, '\n');
@@ -128,7 +131,6 @@ async function generator(): Promise<void> {
 
   const copyList = [
     { destination: dist('C4CE726F8465B7FC.txt'), source: path.join(__dirname, 'static', 'C4CE726F8465B7FC.txt') },
-    { destination: dist('robots.txt'), source: path.join(__dirname, 'static', 'robots.txt') },
 
     ...discoverFilesToCopy('./img/favicon/'),
   ];
