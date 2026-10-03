@@ -42,12 +42,17 @@ body > main#about {
       }
     }
 
-    span {
+    button {
+      background: none;
+      border: 0;
       cursor: pointer;
       display: inline-block;
+      font: inherit;
       line-height: 1.6;
+      padding: 0;
+      user-select: text;
 
-      &.highlight {
+      &[aria-pressed="true"] {
         @media screen {
           color: var(--link-active);
           text-decoration: underline;

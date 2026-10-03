@@ -15,7 +15,9 @@
     });
   });
 
-  document.querySelectorAll('[data-skills] span').forEach(element => {
-    element.addEventListener('click', () => element.classList.toggle('highlight'));
+  document.querySelectorAll('[data-skills] button').forEach(element => {
+    element.addEventListener('click', () => {
+      element.setAttribute('aria-pressed', String(element.getAttribute('aria-pressed') !== 'true'));
+    });
   });
 })();

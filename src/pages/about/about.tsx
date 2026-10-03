@@ -121,7 +121,7 @@ export function About(): ReactElement {
             <strong>{group}</strong>
 
             {items.map((item, index) => <React.Fragment key={item}>
-              {index > 0 ? ', ' : ''}<span>{item}</span>
+              {index > 0 ? ', ' : ''}<button type="button" aria-pressed={false}>{item}</button>
             </React.Fragment>)}
           </div>)}
         </div>
