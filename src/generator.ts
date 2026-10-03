@@ -9,11 +9,11 @@ import { transpileModule, TranspileOptions } from 'typescript';
 
 import * as tsconfig from '../tsconfig.json';
 
-import { Config, config } from './config';
+import { config } from './config';
 import { About } from './pages/about';
 import { NotFound } from './pages/errors';
 import { Home } from './pages/home';
-import { htmlDocument } from './pages/layout';
+import { DocumentProperties, htmlDocument } from './pages/layout';
 import { generateSiteMap } from './pages/sitemap';
 
 interface FileCopyable {
@@ -37,10 +37,10 @@ interface Page {
   readonly styles?: string;
 }
 
-async function compileHTML(page: () => ReactElement, cfg: Config): Promise<string> {
-  const content = page();
+async function compileHTML(body: () => ReactElement, page: DocumentProperties): Promise<string> {
+  const content = body();
 
-  return await minify(htmlDocument(cfg, renderToString(content)), {
+  return await minify(htmlDocument(page, renderToString(content)), {
     collapseWhitespace: true,
     minifyJS: true,
     removeComments: true,
@@ -109,7 +109,7 @@ async function generator(): Promise<void> {
     Promise.all(pages.map(async page => {
       const filename = page.filename || `${page.name}${page.extension || '.html'}`;
       const styles = page.styles || 'html{background-color:red}';
-      const content = await compileHTML(page.body, { ...config, path: page.path, scripts: page.scripts, styles });
+      const content = await compileHTML(page.body, { path: page.path, scripts: page.scripts, styles });
 
       return { content, filename };
     })),

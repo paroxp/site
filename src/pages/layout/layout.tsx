@@ -1,7 +1,14 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Config, config as site } from '../../config';
+import { config } from '../../config';
 import { social } from '../../img';
+
+export type DocumentProperties = {
+  readonly path: string;
+  readonly scripts?: string;
+  readonly styles: string;
+  readonly subtitle?: string;
+}
 
 type HeaderProperties = {
   readonly page?: string;
@@ -49,8 +56,8 @@ function SocialLink(props: SocialLinkProperties): ReactElement {
 export function Header(props: HeaderProperties): ReactElement {
   return <header className={props.page}>
     <div>
-      <h1>{site.name}</h1>
-      <h2>{site.title}</h2>
+      <h1>{config.name}</h1>
+      <h2>{config.title}</h2>
     </div>
 
     <nav>
@@ -90,9 +97,9 @@ function escapeHtml(s: string): string {
     .replace(/>/g, '&gt;');
 }
 
-export function htmlDocument(config: Config, body: string): string {
+export function htmlDocument(page: DocumentProperties, body: string): string {
   const title = `${escapeHtml(config.name)} - ${escapeHtml(config.title)}`;
-  const pageTitle = `${config.subtitle ? `${escapeHtml(config.subtitle)} - ` : ''}${title}`;
+  const pageTitle = `${page.subtitle ? `${escapeHtml(page.subtitle)} - ` : ''}${title}`;
 
   return `<!doctype html>
   <html lang="en">
@@ -107,7 +114,7 @@ export function htmlDocument(config: Config, body: string): string {
       <meta name="author" content="${escapeHtml(config.name)}">
       <meta name="copyright" content="${copyright}">
 
-      <link rel="canonical" href="${new URL(config.path || '', config.url).href}">
+      <link rel="canonical" href="${new URL(page.path, config.url).href}">
 
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -117,12 +124,12 @@ export function htmlDocument(config: Config, body: string): string {
       <meta name="msapplication-TileColor" content="#308559">
       <meta name="theme-color" content="#308559">
 
-      <style>${config.styles}</style>
+      <style>${page.styles}</style>
     </head>
 
     <body>
       ${body}
-      ${config.scripts ? `<script>${config.scripts.replace(/<\/script/gi, '<\\/script')}</script>` : ''}
+      ${page.scripts ? `<script>${page.scripts.replace(/<\/script/gi, '<\\/script')}</script>` : ''}
     </body>
   </html>`;
 }
