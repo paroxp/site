@@ -31,10 +31,7 @@ for (const { path, title } of pages) {
         const page = await context.newPage();
         await page.goto(path);
 
-        // Known issue, still to be fixed: the experience headings contain a link.
-        const { violations } = await new AxeBuilder({ page })
-          .disableRules(['nested-interactive'])
-          .analyze();
+        const { violations } = await new AxeBuilder({ page }).analyze();
 
         expect(violations.map(violation => `${violation.id}: ${violation.help}`)).toEqual([]);
         await context.close();
@@ -67,8 +64,11 @@ test.describe('experience', () => {
     const entry = page.locator('details').first();
 
     await expect(entry.locator('.embedded').first()).toBeHidden();
-    await entry.locator('summary').click({ position: { x: 5, y: 5 } });
+    await expect(entry.getByRole('link')).toBeHidden();
+
+    await entry.locator('summary').click();
     await expect(entry.locator('.embedded').first()).toBeVisible();
+    await expect(entry.getByRole('link')).toBeVisible();
   });
 
   test('is expanded on a narrow screen', async ({ page }) => {
