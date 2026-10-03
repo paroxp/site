@@ -6,7 +6,7 @@ import { createNodeResolver, importX } from 'eslint-plugin-import-x';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  globalIgnores(['coverage/', 'dist/', 'node_modules/']),
+  globalIgnores(['coverage/', 'dist/', 'node_modules/', 'test-results/']),
   {
     extends: [
       js.configs.recommended,
@@ -14,7 +14,7 @@ export default defineConfig([
       importX.flatConfigs.errors,
       importX.flatConfigs.warnings,
     ],
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}', 'tests/**/*.ts', 'playwright.config.ts'],
     languageOptions: {
       parserOptions: {
         ecmaFeatures: { jsx: true },

@@ -25,11 +25,14 @@
     "lint": "npm run -s lint:ts",
     "start": "ts-node src/serve.ts",
     "test:audit": "npm audit",
+    "test:browser": "playwright test",
     "test:types": "tsc --noEmit",
     "test": "npm run -s lint && npm run -s test:types"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^24.19.1",

@@ -154,3 +154,7 @@ $RECYCLE.BIN/
 
 dist/
 
+
+# Playwright
+test-results/
+playwright-report/

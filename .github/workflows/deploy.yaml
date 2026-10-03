@@ -30,6 +30,12 @@ jobs:
     - name: Build artifact
       run: npm run build
 
+    - name: Install browser
+      run: npx playwright install --with-deps --only-shell chromium
+
+    - name: Browser tests
+      run: npm run test:browser
+
     - name: Upload artifact
       if: github.event_name == 'push'
       uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
