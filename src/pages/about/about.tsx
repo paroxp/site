@@ -90,6 +90,15 @@ function EmbeddedExperience(props: BaseExperienceProperties): ReactElement {
   </div>;
 }
 
+const skills: readonly (readonly [string, readonly string[]])[] = [
+  ['Application Development', ['Go', 'TypeScript', 'Node.js', 'NGINX']],
+  ['Infrastructure & Cloud', ['Kubernetes', 'Terraform', 'AWS', 'CloudFoundry']],
+  ['Databases & Storage', ['Postgres', 'MySQL', 'Redis', 'DynamoDB']],
+  ['DevOps & Security', ['Git', 'Docker', 'CI/CD', 'Testing']],
+  ['Monitoring & Observability', ['Grafana', 'Prometheus', 'Datadog', 'Dynatrace']],
+  ['Frontend & Web', ['React', 'Angular', 'Koa.js', 'Express.js']],
+];
+
 export function About(): ReactElement {
   return <>
     <Header page="about" />
@@ -108,37 +117,13 @@ export function About(): ReactElement {
         <h3>Skills</h3>
 
         <div data-skills>
-          <div>
-            <strong>Application Development</strong>
+          {skills.map(([group, items]) => <div key={group}>
+            <strong>{group}</strong>
 
-            <span>Go</span>, <span>TypeScript</span>, <span>Node.js</span>, <span>NGINX</span>
-          </div>
-          <div>
-            <strong>Infrastructure &amp; Cloud</strong>
-
-            <span>Kubernetes</span>, <span>Terraform</span>, <span>AWS</span>, <span>CloudFoundry</span>
-          </div>
-
-          <div>
-            <strong>Databases &amp; Storage</strong>
-
-            <span>Postgres</span>, <span>MySQL</span>, <span>Redis</span>, <span>DynamoDB</span>
-          </div>
-          <div>
-            <strong>DevOps &amp; Security</strong>
-
-            <span>Git</span>, <span>Docker</span>, <span>CI/CD</span>, <span>Testing</span>
-          </div>
-          <div>
-            <strong>Monitoring &amp; Observability</strong>
-
-            <span>Grafana</span>, <span>Prometheus</span>, <span>Datadog</span>, <span>Dynatrace</span>
-          </div>
-          <div>
-            <strong>Frontend &amp; Web</strong>
-
-            <span>React</span>, <span>Angular</span>, <span>Koa.js</span>, <span>Express.js</span>
-          </div>
+            {items.map((item, index) => <React.Fragment key={item}>
+              {index > 0 ? ', ' : ''}<span>{item}</span>
+            </React.Fragment>)}
+          </div>)}
         </div>
       </section>
 
