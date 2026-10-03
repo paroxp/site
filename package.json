@@ -20,10 +20,9 @@
     "build": "npm run -s build:clean && npm run -s build:prepare && npm run -s build:static",
     "fix:ts": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "fix:vulnerabilities": "npm audit fix --update-binary",
-    "fix": "npm run -s fix:sass && npm run -s fix:ts",
-    "lint:sass": "",
+    "fix": "npm run -s fix:ts",
     "lint:ts": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "lint": "npm run -s lint:sass && npm run -s lint:ts",
+    "lint": "npm run -s lint:ts",
     "start": "ts-node src/serve.ts",
     "test:audit": "npm audit",
     "test": "npm run -s lint"
