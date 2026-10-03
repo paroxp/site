@@ -35,6 +35,7 @@ interface Page {
   readonly scripts?: string;
   readonly skipSitemap?: boolean;
   readonly styles?: string;
+  readonly subtitle?: string;
 }
 
 async function compileHTML(body: () => ReactElement, page: DocumentProperties): Promise<string> {
@@ -94,6 +95,7 @@ async function generator(): Promise<void> {
       path: '/404',
       skipSitemap: true,
       styles: errorStyles,
+      subtitle: 'Page not found',
     },
     {
       body: About,
@@ -101,6 +103,7 @@ async function generator(): Promise<void> {
       path: '/about',
       scripts: aboutScripts,
       styles: aboutStyles,
+      subtitle: 'About',
     },
   ];
 
@@ -109,7 +112,12 @@ async function generator(): Promise<void> {
     Promise.all(pages.map(async page => {
       const filename = page.filename || `${page.name}${page.extension || '.html'}`;
       const styles = page.styles || 'html{background-color:red}';
-      const content = await compileHTML(page.body, { path: page.path, scripts: page.scripts, styles });
+      const content = await compileHTML(page.body, {
+        path: page.path,
+        scripts: page.scripts,
+        styles,
+        subtitle: page.subtitle,
+      });
 
       return { content, filename };
     })),
