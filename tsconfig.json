@@ -22,7 +22,8 @@
     "isolatedModules": false,
     "pretty": true,
     "allowJs": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "types": ["node"]
   },
   "include": [
     "src/**/*.ts",
@@ -35,6 +36,5 @@
   ],
   "ts-node": {
     "transpileOnly": true
-  },
-  "types": ["node"]
+  }
 }

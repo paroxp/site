@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/html-minifier-terser": "^7.0.2",
+    "@types/node": "^24.19.1",
     "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.60.1",
