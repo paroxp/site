@@ -13,6 +13,7 @@ const MIME: Readonly<Record<string, string>> = {
 };
 
 const dist = path.join(__dirname, '..', 'dist');
+const host = process.env['HOST'] ?? '127.0.0.1';
 const port = Number(process.env['PORT'] ?? 8080);
 
 function handle(req: IncomingMessage, res: ServerResponse): void {
@@ -44,6 +45,6 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
   res.end(existsSync(notFound) ? readFileSync(notFound) : 'Not found');
 }
 
-createServer(handle).listen(port, () => {
-  console.info(`Serving on http://localhost:${port}`);
+createServer(handle).listen(port, host, () => {
+  console.info(`Serving on http://${host}:${port}`);
 });
