@@ -16,21 +16,6 @@
 }
 
 /**
- * We might need to clearfix some stuff using mixin!
- */
-@mixin clearfix() {
-  &:before, &:after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    overflow: hidden;
-  }
-  &:after {
-    clear: both;
-  }
-}
-
-/**
  * Ability to use shorthand media query in our project.
  */
 @mixin min($width) {
