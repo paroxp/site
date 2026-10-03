@@ -72,7 +72,7 @@ function Experience(props: ExperienceProperties): ReactElement {
         <strong>
           {props.title}
         </strong> at
-      </span> {props.organisation} {}
+      </span> <span className="organisation">{props.organisation}</span> {}
       <span className="link" aria-hidden>( {props.organisationURL} )</span>
     </summary>
 

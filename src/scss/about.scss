@@ -111,6 +111,10 @@ body > main#about {
           }
         }
 
+        span.organisation {
+          color: var(--link);
+        }
+
         .icon {
           margin-right: .4rem;
         }
@@ -138,6 +142,11 @@ body > main#about {
             margin-left: 0;
           }
         }
+      }
+
+      p.organisation {
+        font-size: 90%;
+        margin-bottom: 1rem;
       }
     }
 
