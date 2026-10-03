@@ -1,11 +1,17 @@
 ((): void => {
-  assure('[data-details] summary', (element: Element) => {
-    element.addEventListener('click', e => {
-      if ((e.target as Element).tagName.toLowerCase() !== 'a') {
-        e.preventDefault();
+  const details = document.querySelectorAll<HTMLDetailsElement>('[data-details]');
 
-        toggleClass(element.parentNode as Element, 'active');
-      }
+  // Sections are rendered open so they stay readable without JavaScript. Collapse them at the tablet breakpoint
+  // (see $width in _variables.scss), where the toggle icons are shown.
+  if (window.matchMedia('screen and (min-width: 48rem)').matches) {
+    details.forEach(element => {
+      element.open = false;
+    });
+  }
+
+  window.addEventListener('beforeprint', () => {
+    details.forEach(element => {
+      element.open = true;
     });
   });
 

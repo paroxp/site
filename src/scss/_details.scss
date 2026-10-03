@@ -42,7 +42,7 @@
         }
       }
 
-      &.active summary .icon {
+      &[open] summary .icon {
         &.open {
           display: block;
         }
@@ -52,18 +52,6 @@
         }
       }
 
-    }
-  }
-
-  > *:not(summary) {
-    @include min(map.get($width, 'tablet')) {
-      display: none;
-    }
-  }
-
-  &.active > *:not(summary) {
-    @include min(map.get($width, 'tablet')) {
-      display: block;
     }
   }
 }
