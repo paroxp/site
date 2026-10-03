@@ -1,6 +1,12 @@
 @use "core" as *;
 @use "sass:map";
 
+body > header.home > div {
+  @include govuk-visually-hidden;
+
+  display: block;
+}
+
 body > main#home {
   font-size: 1.625rem;
   text-align: center;

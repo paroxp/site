@@ -31,9 +31,9 @@ for (const { path, title } of pages) {
         const page = await context.newPage();
         await page.goto(path);
 
-        // Known issues, still to be fixed: the home page has no <h1>, and the experience headings contain a link.
+        // Known issue, still to be fixed: the experience headings contain a link.
         const { violations } = await new AxeBuilder({ page })
-          .disableRules(['page-has-heading-one', 'nested-interactive'])
+          .disableRules(['nested-interactive'])
           .analyze();
 
         expect(violations.map(violation => `${violation.id}: ${violation.help}`)).toEqual([]);
