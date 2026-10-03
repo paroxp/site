@@ -90,7 +90,7 @@ body > main#about {
     details {
       @media print {
         margin-bottom: 1rem;
-        page-break-inside: avoid;
+        break-inside: avoid;
       }
 
       summary {
@@ -109,6 +109,10 @@ body > main#about {
           @media print {
             display: inline;
           }
+        }
+
+        span.organisation {
+          color: var(--link);
         }
 
         .icon {
@@ -130,7 +134,7 @@ body > main#about {
         }
       }
 
-      div.embedded {
+      div.embedded, p.organisation {
         @media screen {
           margin-left: 1.3rem;
 
@@ -138,6 +142,11 @@ body > main#about {
             margin-left: 0;
           }
         }
+      }
+
+      p.organisation {
+        font-size: 90%;
+        margin-bottom: 1rem;
       }
     }
 

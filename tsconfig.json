@@ -17,7 +17,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "bundler",
-    "rootDir": "src",
+    "rootDir": ".",
     "noImplicitAny": true,
     "isolatedModules": false,
     "pretty": true,
@@ -27,12 +27,13 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "tests/**/*.ts",
+    "playwright.config.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "**test**"
+    "dist"
   ],
   "ts-node": {
     "transpileOnly": true
