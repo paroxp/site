@@ -2,13 +2,10 @@ import fs from 'fs';
 import path from 'path';
 
 export const beard = fs.readFileSync(path.join(__dirname, 'beard.svg'), 'utf8');
-export const logo = fs.readFileSync(path.join(__dirname, 'logo.svg'), 'utf8');
 
 export const arrow = {
   down: fs.readFileSync(path.join(__dirname, 'arrows', 'down.svg'), 'utf8'),
-  left: fs.readFileSync(path.join(__dirname, 'arrows', 'left.svg'), 'utf8'),
   right: fs.readFileSync(path.join(__dirname, 'arrows', 'right.svg'), 'utf8'),
-  up: fs.readFileSync(path.join(__dirname, 'arrows', 'up.svg'), 'utf8'),
 };
 
 export const social: { readonly [icon: string]: string } = {

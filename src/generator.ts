@@ -26,14 +26,13 @@ interface FileWriteable {
 
 interface Page {
   readonly body: () => ReactElement;
-  readonly extension?: string;
   readonly filename?: string;
   readonly name: string;
   readonly path: string;
   readonly priority?: number;
   readonly scripts?: string;
   readonly skipSitemap?: boolean;
-  readonly styles?: string;
+  readonly styles: string;
   readonly subtitle?: string;
 }
 
@@ -112,12 +111,11 @@ async function generator(): Promise<void> {
   const [sitemap, compiledPages] = await Promise.all([
     generateSiteMap(config, pages.filter(page => !page.skipSitemap)),
     Promise.all(pages.map(async page => {
-      const filename = page.filename || `${page.name}${page.extension || '.html'}`;
-      const styles = page.styles || 'html{background-color:red}';
+      const filename = page.filename || `${page.name}.html`;
       const content = await compileHTML(page.body, {
         path: page.path,
         scripts: page.scripts,
-        styles,
+        styles: page.styles,
         subtitle: page.subtitle,
       });
 

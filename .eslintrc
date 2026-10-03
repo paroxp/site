@@ -1,8 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es6": true,
-    "jest": true
+    "es6": true
   },
   "extends": [
     "eslint:recommended",
@@ -75,11 +74,5 @@
     "sort-imports": ["warn", {"ignoreCase": true, "ignoreDeclarationSort": true}],
     "sort-keys": ["warn", "asc", {"caseSensitive": false, "natural": false, "minKeys": 2}],
     "use-isnan": "error"
-  },
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "detect"
-    }
   }
 }
