@@ -90,7 +90,7 @@ body > main#about {
     details {
       @media print {
         margin-bottom: 1rem;
-        page-break-inside: avoid;
+        break-inside: avoid;
       }
 
       summary {
