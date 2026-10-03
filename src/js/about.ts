@@ -15,13 +15,7 @@
     });
   });
 
-  assure('[data-skills] span', (element: Element) => {
-    element.addEventListener('click', _e => element.classList.toggle('highlight'));
+  document.querySelectorAll('[data-skills] span').forEach(element => {
+    element.addEventListener('click', () => element.classList.toggle('highlight'));
   });
 })();
-
-function assure(element: string, cb: (element: Element) => void): void {
-  const elements = document.querySelectorAll(element);
-
-  elements.forEach(cb);
-}
