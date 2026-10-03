@@ -31,14 +31,10 @@
         }
 
         svg {
-          fill: map.get($light-mode, 'foreground');
+          fill: var(--foreground);
           margin-top: 0.25em;
           max-height: 1em;
           max-width: 1em;
-
-          @media screen and (prefers-color-scheme: dark) {
-            fill: map.get($dark-mode, 'foreground');
-          }
         }
       }
 
@@ -59,10 +55,6 @@
 #beardPath {
   stroke: none;
   fill-rule: nonzero;
-  fill: map.get($light-mode, 'foreground');
+  fill: var(--foreground);
   fill-opacity: 1;
-
-  @media screen and (prefers-color-scheme: dark) {
-    fill: map.get($dark-mode, 'foreground');
-  }
 }

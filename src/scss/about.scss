@@ -1,5 +1,4 @@
-@use "core" as *;
-@use "sass:map";
+@use "core";
 
 body > header.about {
   > div {
@@ -50,12 +49,8 @@ body > main#about {
 
       &.highlight {
         @media screen {
-          color: map.get($light-mode, 'link-active');
+          color: var(--link-active);
           text-decoration: underline;
-
-          @media screen and (prefers-color-scheme: dark) {
-            color: map.get($dark-mode, 'link-active');
-          }
         }
 
         @media print {

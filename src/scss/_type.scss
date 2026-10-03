@@ -3,22 +3,14 @@
 @use "sass:map";
 
 a, a:link, a:visited {
-  color: map.get($light-mode, 'link');
+  color: var(--link);
   text-decoration: none;
 
   transition: all .3s ease;
-
-  @media screen and (prefers-color-scheme: dark) {
-    color: map.get($dark-mode, 'link');
-  }
 }
 
 a:hover, a:active, a.active {
-  color: map.get($light-mode, 'link-active');
-
-  @media screen and (prefers-color-scheme: dark) {
-    color: map.get($dark-mode, 'link-active');
-  }
+  color: var(--link-active);
 }
 
 h1 {
@@ -76,12 +68,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: .25rem 0 .5rem;
 
   small {
-    color: map.get($light-mode, 'secondary');
+    color: var(--secondary);
     font-size: 60%;
     font-weight: normal;
-
-    @media screen and (prefers-color-scheme: dark) {
-      color: map.get($dark-mode, 'secondary');
-    }
   }
 }
