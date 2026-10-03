@@ -32,6 +32,7 @@ interface Page {
   readonly filename?: string;
   readonly name: string;
   readonly path: string;
+  readonly priority?: number;
   readonly scripts?: string;
   readonly skipSitemap?: boolean;
   readonly styles?: string;
@@ -101,6 +102,7 @@ async function generator(): Promise<void> {
       body: About,
       name: 'about',
       path: '/about',
+      priority: 1.0,
       scripts: aboutScripts,
       styles: aboutStyles,
       subtitle: 'About',
