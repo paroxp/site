@@ -125,7 +125,7 @@ export function htmlDocument(page: DocumentProperties, body: string): string {
       <meta name="msapplication-TileColor" content="#308559">
       <meta name="theme-color" content="#308559">
 
-      <style>${page.styles}</style>
+      <style>${page.styles.replace(/<\/style/gi, '<\\/style')}</style>
     </head>
 
     <body>
