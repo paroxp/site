@@ -258,7 +258,7 @@ export function About(): ReactElement {
           finish={new Date('2016-08-05')}
           title="Frontend Developer"
           organisation="FLIP Sports"
-          organisationURL="http://flipsports.com">
+          organisationURL="https://www.linkedin.com/company/flip-sports-limited/">
           <ul>
             <li>Worked on a rewards system with the use of Angular, Ionic, JWT, OIDC, Python, AWS, Postgres</li>
             <li>Delivered services in a form of REST APIs, Web Applications, Metric collectors</li>
