@@ -140,8 +140,7 @@ async function generator(): Promise<void> {
   });
 
   const copyList = [
-    { destination: dist('C4CE726F8465B7FC.txt'), source: path.join(__dirname, 'static', 'C4CE726F8465B7FC.txt') },
-
+    ...discoverFilesToCopy('./static/'),
     ...discoverFilesToCopy('./img/favicon/'),
   ];
 
