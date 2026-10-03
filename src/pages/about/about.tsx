@@ -44,7 +44,7 @@ type ExperienceProperties = BaseExperienceProperties & {
   readonly hasEmbeddedExperience?: boolean;
   readonly organisation: string;
   readonly organisationURL: string;
-}
+};
 
 type TermProperties = {
   readonly start: Date;

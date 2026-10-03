@@ -18,10 +18,10 @@
     "build:prepare": "mkdir dist/",
     "build:static": "ts-node src/generator.ts",
     "build": "npm run -s build:clean && npm run -s build:prepare && npm run -s build:static",
-    "fix:ts": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+    "fix:ts": "eslint --fix .",
     "fix:vulnerabilities": "npm audit fix --update-binary",
     "fix": "npm run -s fix:ts",
-    "lint:ts": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:ts": "eslint .",
     "lint": "npm run -s lint:ts",
     "start": "ts-node src/serve.ts",
     "test:audit": "npm audit",
@@ -29,15 +29,15 @@
     "test": "npm run -s lint && npm run -s test:types"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@types/html-minifier-terser": "^7.0.2",
     "@types/node": "^24.19.1",
     "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.60.1",
-    "@typescript-eslint/parser": "^8.60.1",
-    "eslint": "^8.57.1",
-    "eslint-plugin-functional": "^6.6.3",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint": "^10.12.0",
+    "eslint-plugin-functional": "^10.0.1",
+    "eslint-plugin-import-x": "^4.17.1",
     "html-minifier-terser": "^7.2.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -45,6 +45,7 @@
     "sitemap": "^9.0.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.0"
   }
 }

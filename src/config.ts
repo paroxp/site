@@ -4,7 +4,7 @@ export type Config = {
   readonly name: string;
   readonly title: string;
   readonly url: string;
-}
+};
 
 export const config: Config = {
   description: 'Technologist, DevOps, Developer, Site Reliability Engineer, all kinds of wizardry.',

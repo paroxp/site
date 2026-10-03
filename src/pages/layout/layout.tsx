@@ -8,11 +8,11 @@ export type DocumentProperties = {
   readonly scripts?: string;
   readonly styles: string;
   readonly subtitle?: string;
-}
+};
 
 type HeaderProperties = {
   readonly page?: string;
-}
+};
 
 type LinkProperties = {
   readonly children: ReactNode;
@@ -21,13 +21,13 @@ type LinkProperties = {
   readonly internal?: boolean;
   readonly rel?: string;
   readonly title?: string;
-}
+};
 
 type SocialLinkProperties = {
   readonly icon: keyof typeof social;
   readonly title: string;
   readonly url: string;
-}
+};
 
 const copyright = `Copyright 2014 - ${new Date().getFullYear()}`;
 
