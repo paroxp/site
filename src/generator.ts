@@ -142,4 +142,7 @@ async function generator(): Promise<void> {
 }
 
 generator()
-  .catch(console.error);
+  .catch((err: unknown) => {
+    console.error(err);
+    process.exitCode = 1;
+  });
