@@ -1,31 +1,43 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import { Config } from '../../config';
+import { config } from '../../config';
 import { social } from '../../img';
+
+export type DocumentProperties = {
+  readonly path: string;
+  readonly scripts?: string;
+  readonly styles: string;
+  readonly subtitle?: string;
+};
 
 type HeaderProperties = {
   readonly page?: string;
-}
+};
 
 type LinkProperties = {
   readonly children: ReactNode;
   readonly className?: string;
   readonly href: string;
   readonly internal?: boolean;
-}
+  readonly rel?: string;
+  readonly title?: string;
+};
 
 type SocialLinkProperties = {
-  readonly icon: string;
+  readonly icon: keyof typeof social;
   readonly title: string;
   readonly url: string;
-}
+};
+
+const copyright = `Copyright 2014 - ${new Date().getFullYear()}`;
 
 export function Link(props: LinkProperties): ReactElement {
   return <a
     className={props.className}
     href={props.href}
     target={!props.internal ? '_blank' : undefined}
-    rel={!props.internal ? 'external nofollow noopener noreferrer' : undefined}>
+    rel={!props.internal ? `external nofollow noopener noreferrer ${props.rel ?? ''}`.trim() : props.rel}
+    title={props.title}>
       {props.children}
     </a>;
 }
@@ -34,23 +46,18 @@ function SocialLink(props: SocialLinkProperties): ReactElement {
   const image = social[props.icon];
 
   return <li>
-    <a
-      href={props.url}
-      target="_blank"
-      rel="external nofollow noopener noreferrer me"
-      title={props.title}
-      className={props.icon}>
+    <Link href={props.url} rel="me" title={props.title} className={props.icon}>
       <span className={['icon', props.icon].join(' ')} dangerouslySetInnerHTML={{ __html: image }}></span>
       <span className="visually-hidden">{props.title}</span>
-    </a>
+    </Link>
   </li>;
 }
 
 export function Header(props: HeaderProperties): ReactElement {
   return <header className={props.page}>
     <div>
-      <h1>Rafal Proszowski</h1>
-      <h2>Site Reliability Engineer</h2>
+      <h1>{config.name}</h1>
+      <h2>{config.title}</h2>
     </div>
 
     <nav>
@@ -67,8 +74,6 @@ export function Header(props: HeaderProperties): ReactElement {
 }
 
 export function Footer(): ReactElement {
-  const currentYear = new Date().getFullYear();
-
   return <footer>
     <ul className="icons">
       <SocialLink icon="github" title="Check me out on GitHub" url="https://github.com/paroxp" />
@@ -79,9 +84,7 @@ export function Footer(): ReactElement {
         url="https://www.linkedin.com/in/rafal-proszowski-78816744/" />
     </ul>
     <div className="copyright">
-      <small>
-        Copyright 2014 - {currentYear}
-      </small>
+      <small>{copyright}</small>
     </div>
   </footer>;
 }
@@ -94,25 +97,25 @@ function escapeHtml(s: string): string {
     .replace(/>/g, '&gt;');
 }
 
-export function htmlDocument(config: Config, body: string): string {
+export function htmlDocument(page: DocumentProperties, body: string): string {
   const title = `${escapeHtml(config.name)} - ${escapeHtml(config.title)}`;
-  const pageTitle = `${config.subtitle ? `${escapeHtml(config.subtitle)} - ` : ''}${title}`;
+  const pageTitle = `${page.subtitle ? `${escapeHtml(page.subtitle)} - ` : ''}${title}`;
 
   return `<!doctype html>
   <html lang="en">
     <head>
+      <meta charset="utf-8">
+
       <title>${pageTitle}</title>
       <meta content="${pageTitle}" property="og:title">
 
-      <meta charset="utf-8">
-      <meta name="theme-color" content="#3D9970"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
       <meta name="description" content="${escapeHtml(config.description)}"  property="og:description">
       <meta name="keywords" content="${escapeHtml(config.keywords.join(','))}">
       <meta name="author" content="${escapeHtml(config.name)}">
-      <meta name="copyright" content="Copyright 2014 - ${new Date().getFullYear()}">
+      <meta name="copyright" content="${copyright}">
 
-      <link rel="canonical" href="${new URL(config.path || '', config.url).href}">
+      <link rel="canonical" href="${new URL(page.path, config.url).href}">
 
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -122,12 +125,12 @@ export function htmlDocument(config: Config, body: string): string {
       <meta name="msapplication-TileColor" content="#308559">
       <meta name="theme-color" content="#308559">
 
-      <style>${config.styles}</style>
+      <style>${page.styles.replace(/<\/style/gi, '<\\/style')}</style>
     </head>
 
     <body>
       ${body}
-      ${config.scripts ? `<script>${config.scripts.replace(/<\/script/gi, '<\\/script')}</script>` : ''}
+      ${page.scripts ? `<script>${page.scripts.replace(/<\/script/gi, '<\\/script')}</script>` : ''}
     </body>
   </html>`;
 }

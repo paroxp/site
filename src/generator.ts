@@ -1,19 +1,18 @@
+import { createHash } from 'crypto';
 import { copyFileSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
 import { minify } from 'html-minifier-terser';
 import { ReactElement } from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { compileAsync as compileSass } from 'sass';
-import { transpileModule, TranspileOptions } from 'typescript';
+import { ModuleKind, ScriptTarget, transpileModule } from 'typescript';
 
-import * as tsconfig from '../tsconfig.json';
-
-import { Config, config } from './config';
+import { config } from './config';
 import { About } from './pages/about';
 import { NotFound } from './pages/errors';
 import { Home } from './pages/home';
-import { htmlDocument } from './pages/layout';
+import { DocumentProperties, htmlDocument } from './pages/layout';
 import { generateSiteMap } from './pages/sitemap';
 
 interface FileCopyable {
@@ -28,23 +27,50 @@ interface FileWriteable {
 
 interface Page {
   readonly body: () => ReactElement;
-  readonly extension?: string;
   readonly filename?: string;
   readonly name: string;
   readonly path: string;
+  readonly priority?: number;
   readonly scripts?: string;
   readonly skipSitemap?: boolean;
-  readonly styles?: string;
+  readonly styles: string;
+  readonly subtitle?: string;
 }
 
-async function compileHTML(page: () => ReactElement, cfg: Config): Promise<string> {
-  const content = page();
-
-  return await minify(htmlDocument(cfg, renderToString(content)), {
+async function compileHTML(body: () => ReactElement, page: DocumentProperties): Promise<string> {
+  const content = body();
+  const html = await minify(htmlDocument(page, renderToStaticMarkup(content)), {
     collapseWhitespace: true,
     minifyJS: true,
     removeComments: true,
   });
+
+  return withContentSecurityPolicy(html);
+}
+
+// The inline <style> and <script> are allowed by hash, so the policy has to be computed from the final, minified HTML.
+function withContentSecurityPolicy(html: string): string {
+  const charset = '<meta charset="utf-8">';
+  const quote = (keyword: string): string => `'${keyword}'`;
+  const hashes = (tag: string): string => html.split(`<${tag}>`).slice(1)
+    .map(block => createHash('sha256').update(block.split(`</${tag}>`)[0]).digest('base64'))
+    .map(hash => quote(`sha256-${hash}`))
+    .join(' ') || quote('none');
+  const policy = [
+    `default-src ${quote('none')}`,
+    `base-uri ${quote('none')}`,
+    `form-action ${quote('none')}`,
+    `img-src ${quote('self')}`,
+    `manifest-src ${quote('self')}`,
+    `script-src ${hashes('script')}`,
+    `style-src ${hashes('style')}`,
+  ].join('; ');
+
+  if (!html.includes(charset)) {
+    throw new Error('Unable to place the Content-Security-Policy: charset declaration not found.');
+  }
+
+  return html.replace(charset, `${charset}<meta http-equiv="Content-Security-Policy" content="${policy}">`);
 }
 
 async function compileSCSS(filename: string): Promise<string> {
@@ -59,7 +85,9 @@ async function compileSCSS(filename: string): Promise<string> {
 function compileTypeScript(filename: string): string {
   const source = readFileSync(path.join(__dirname, filename), 'utf8');
 
-  return transpileModule(source, tsconfig as unknown as TranspileOptions).outputText;
+  return transpileModule(source, {
+    compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2015 },
+  }).outputText;
 }
 
 function discoverFilesToCopy(filepath: string): readonly FileCopyable[] {
@@ -73,12 +101,12 @@ function dist(...parts: readonly string[]): string {
 
 
 async function generator(): Promise<void> {
-  const [homeStyles, errorStyles, aboutStyles, aboutScripts] = await Promise.all([
+  const [homeStyles, errorStyles, aboutStyles] = await Promise.all([
     compileSCSS('./scss/home.scss'),
     compileSCSS('./scss/error.scss'),
     compileSCSS('./scss/about.scss'),
-    Promise.resolve(compileTypeScript('./js/about.ts')),
   ]);
+  const aboutScripts = compileTypeScript('./js/about.ts');
 
   const pages: readonly Page[] = [
     {
@@ -94,29 +122,39 @@ async function generator(): Promise<void> {
       path: '/404',
       skipSitemap: true,
       styles: errorStyles,
+      subtitle: 'Page not found',
     },
     {
       body: About,
       name: 'about',
       path: '/about',
+      priority: 1.0,
       scripts: aboutScripts,
       styles: aboutStyles,
+      subtitle: 'About',
     },
   ];
 
   const [sitemap, compiledPages] = await Promise.all([
     generateSiteMap(config, pages.filter(page => !page.skipSitemap)),
     Promise.all(pages.map(async page => {
-      const filename = page.filename || `${page.name}${page.extension || '.html'}`;
-      const styles = page.styles || 'html{background-color:red}';
-      const content = await compileHTML(page.body, { ...config, path: page.path, scripts: page.scripts, styles });
+      const filename = page.filename || `${page.name}.html`;
+      const content = await compileHTML(page.body, {
+        path: page.path,
+        scripts: page.scripts,
+        styles: page.styles,
+        subtitle: page.subtitle,
+      });
 
       return { content, filename };
     })),
   ]);
 
+  const robots = `User-agent: *\nAllow: /\n\nSitemap: ${new URL('sitemap.xml', config.url).href}\n`;
+
   const files: readonly FileWriteable[] = [
     ...compiledPages,
+    { content: robots, filename: 'robots.txt' },
     { content: sitemap, filename: 'sitemap.xml' },
   ];
   console.info(`${files.length} files to write.`, '\n');
@@ -127,9 +165,7 @@ async function generator(): Promise<void> {
   });
 
   const copyList = [
-    { destination: dist('C4CE726F8465B7FC.txt'), source: path.join(__dirname, 'static', 'C4CE726F8465B7FC.txt') },
-    { destination: dist('robots.txt'), source: path.join(__dirname, 'static', 'robots.txt') },
-
+    ...discoverFilesToCopy('./static/'),
     ...discoverFilesToCopy('./img/favicon/'),
   ];
 
@@ -142,4 +178,7 @@ async function generator(): Promise<void> {
 }
 
 generator()
-  .catch(console.error);
+  .catch((err: unknown) => {
+    console.error(err);
+    process.exitCode = 1;
+  });

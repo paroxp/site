@@ -6,29 +6,13 @@
   display: inline-block;
   padding: .3rem;
   text-align: center;
-  transition: all .3s ease;
+  transition: color .3s ease;
 
   svg path {
-    transition: all .3s ease;
+    transition: fill .3s ease;
   }
 
   @content;
-}
-
-/**
- * We might need to clearfix some stuff using mixin!
- */
-@mixin clearfix() {
-  zoom: 1;
-  &:before, &:after {
-    content: "\0020";
-    display: block;
-    height: 0;
-    overflow: hidden;
-  }
-  &:after {
-    clear: both;
-  }
 }
 
 /**

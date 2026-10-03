@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 
 import { arrow } from '../../img';
-import { Footer, Header } from '../layout';
+import { Footer, Header, Link } from '../layout';
 
 function ordinalSuffix(n: number): string {
   const mod100 = n % 100;
@@ -28,6 +28,10 @@ function formatMonthYear(date: Date): string {
   return new Intl.DateTimeFormat('en-GB', { month: 'long', timeZone: 'UTC', year: 'numeric' }).format(date);
 }
 
+function formatYear(date: Date): string {
+  return String(date.getUTCFullYear());
+}
+
 type BaseExperienceProperties = {
   readonly title: string;
   readonly start: Date;
@@ -39,31 +43,37 @@ type BaseExperienceProperties = {
 type ExperienceProperties = BaseExperienceProperties & {
   readonly hasEmbeddedExperience?: boolean;
   readonly organisation: string;
-  readonly organisationURL?: string;
+  readonly organisationURL: string;
+};
+
+type TermProperties = {
+  readonly start: Date;
+  readonly finish?: Date;
+  readonly format: (date: Date) => string;
+};
+
+function Term(props: TermProperties): ReactElement {
+  const range = (format: (date: Date) => string): string =>
+    `${format(props.start)} - ${!props.finish ? 'present' : format(props.finish)}`;
+
+  return <time dateTime={props.start.toISOString().slice(0, 10)} title={range(formatLong)}>
+    {range(props.format)}
+  </time>;
 }
 
 function Experience(props: ExperienceProperties): ReactElement {
-  const termStart = formatLong(props.start);
-  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
-  const title = `${termStart} - ${termEnd}`;
-
   return <details data-details={props.nonPrintable ? 'no-print' : ''} open>
     <summary>
       <span className="icon closed" dangerouslySetInnerHTML={{ __html: arrow.right }} />
       <span className="icon open" dangerouslySetInnerHTML={{ __html: arrow.down }} />
 
-      <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
-        {props.start.getUTCFullYear()} - {!props.finish ? 'present' : props.finish.getUTCFullYear()}
-      </time>
+      <Term start={props.start} finish={props.finish} format={formatYear} />
       <span className={props.hasEmbeddedExperience ? 'no-print' : ''}>: {}
         <strong>
           {props.title}
         </strong> at
-      </span> <a href={props.organisationURL} target="_blank" rel="external nofollow noopener noreferrer">
-        {props.organisation}
-      </a> {props.organisationURL
-        ? <span className="link" aria-hidden>( {props.organisationURL} )</span>
-        : <></>}
+      </span> <Link href={props.organisationURL}>{props.organisation}</Link> {}
+      <span className="link" aria-hidden>( {props.organisationURL} )</span>
     </summary>
 
     {props.children}
@@ -72,19 +82,22 @@ function Experience(props: ExperienceProperties): ReactElement {
 }
 
 function EmbeddedExperience(props: BaseExperienceProperties): ReactElement {
-  const termStart = formatLong(props.start);
-  const termEnd = !props.finish ? 'present' : formatLong(props.finish);
-  const title = `${termStart} - ${termEnd}`;
-
   return <div className="embedded">
-    <time dateTime={props.start.toISOString().slice(0, 10)} title={title}>
-      {formatMonthYear(props.start)} - {!props.finish ? 'present' : formatMonthYear(props.finish)}
-    </time>: {}
+    <Term start={props.start} finish={props.finish} format={formatMonthYear} />: {}
     <strong>{props.title}</strong>
 
     {props.children}
   </div>;
 }
+
+const skills: readonly (readonly [string, readonly string[]])[] = [
+  ['Application Development', ['Go', 'TypeScript', 'Node.js', 'NGINX']],
+  ['Infrastructure & Cloud', ['Kubernetes', 'Terraform', 'AWS', 'CloudFoundry']],
+  ['Databases & Storage', ['Postgres', 'MySQL', 'Redis', 'DynamoDB']],
+  ['DevOps & Security', ['Git', 'Docker', 'CI/CD', 'Testing']],
+  ['Monitoring & Observability', ['Grafana', 'Prometheus', 'Datadog', 'Dynatrace']],
+  ['Frontend & Web', ['React', 'Angular', 'Koa.js', 'Express.js']],
+];
 
 export function About(): ReactElement {
   return <>
@@ -104,37 +117,13 @@ export function About(): ReactElement {
         <h3>Skills</h3>
 
         <div data-skills>
-          <div>
-            <strong>Application Development</strong>
+          {skills.map(([group, items]) => <div key={group}>
+            <strong>{group}</strong>
 
-            <span>Go</span>, <span>TypeScript</span>, <span>Node.js</span>, <span>NGINX</span>
-          </div>
-          <div>
-            <strong>Infrastructure &amp; Cloud</strong>
-
-            <span>Kubernetes</span>, <span>Terraform</span>, <span>AWS</span>, <span>CloudFoundry</span>
-          </div>
-
-          <div>
-            <strong>Databases &amp; Storage</strong>
-
-            <span>Postgres</span>, <span>MySQL</span>, <span>Redis</span>, <span>DynamoDB</span>
-          </div>
-          <div>
-            <strong>DevOps &amp; Security</strong>
-
-            <span>Git</span>, <span>Docker</span>, <span>CI/CD</span>, <span>Testing</span>
-          </div>
-          <div>
-            <strong>Monitoring &amp; Observability</strong>
-
-            <span>Grafana</span>, <span>Prometheus</span>, <span>Datadog</span>, <span>Dynatrace</span>
-          </div>
-          <div>
-            <strong>Frontend &amp; Web</strong>
-
-            <span>React</span>, <span>Angular</span>, <span>Koa.js</span>, <span>Express.js</span>
-          </div>
+            {items.map((item, index) => <React.Fragment key={item}>
+              {index > 0 ? ', ' : ''}<button type="button" aria-pressed={false}>{item}</button>
+            </React.Fragment>)}
+          </div>)}
         </div>
       </section>
 
@@ -269,7 +258,7 @@ export function About(): ReactElement {
           finish={new Date('2016-08-05')}
           title="Frontend Developer"
           organisation="FLIP Sports"
-          organisationURL="http://flipsports.com">
+          organisationURL="https://www.linkedin.com/company/flip-sports-limited/">
           <ul>
             <li>Worked on a rewards system with the use of Angular, Ionic, JWT, OIDC, Python, AWS, Postgres</li>
             <li>Delivered services in a form of REST APIs, Web Applications, Metric collectors</li>

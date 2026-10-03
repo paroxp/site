@@ -5,14 +5,14 @@ import { SitemapStream, streamToPromise } from 'sitemap';
 import { Config } from '../../config';
 
 interface Stack {
-  readonly name: string;
   readonly path: string;
+  readonly priority?: number;
 }
 
 export async function generateSiteMap(config: Config, stack: readonly Stack[]): Promise<string> {
   const links = stack.map(link => ({
     changefreq: 'monthly',
-    priority: link.name === 'about' ? 1.0 : 0.3,
+    priority: link.priority ?? 0.3,
     url: link.path,
   }));
 
