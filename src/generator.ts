@@ -3,7 +3,7 @@ import path from 'path';
 
 import { minify } from 'html-minifier-terser';
 import { ReactElement } from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { compileAsync as compileSass } from 'sass';
 import { ModuleKind, ScriptTarget, transpileModule } from 'typescript';
 
@@ -39,7 +39,7 @@ interface Page {
 async function compileHTML(body: () => ReactElement, page: DocumentProperties): Promise<string> {
   const content = body();
 
-  return await minify(htmlDocument(page, renderToString(content)), {
+  return await minify(htmlDocument(page, renderToStaticMarkup(content)), {
     collapseWhitespace: true,
     minifyJS: true,
     removeComments: true,
