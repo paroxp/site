@@ -17,7 +17,7 @@ const host = process.env['HOST'] ?? '127.0.0.1';
 const port = Number(process.env['PORT'] ?? 8080);
 
 function handle(req: IncomingMessage, res: ServerResponse): void {
-  const raw = req.url ?? '/';
+  const raw = (req.url ?? '/').split('?')[0];
   const url = raw.endsWith('/') ? `${raw}index.html` : raw;
   const full = path.join(dist, url);
 
